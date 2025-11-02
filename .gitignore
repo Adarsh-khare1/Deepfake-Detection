@@ -1,0 +1,29 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment folders
+venv/
+env/
+.venv/
+
+# Model and large files
+*.keras
+*.pkl
+*.joblib
+
+# Dataset or output folders
+data/
+datasets/
+outputs/
+*.csv
+*.zip
+
+# System / editor files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
