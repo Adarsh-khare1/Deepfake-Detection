@@ -2,6 +2,10 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 import cv2
+import os
+os.system("ldd --version")
+os.system("apt-get update && apt-get install -y libgl1-mesa-glx")
+
 
 # Load the trained model
 model = tf.keras.models.load_model('deepfake_model.h5')
