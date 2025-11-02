@@ -21,10 +21,11 @@ if uploaded_file is not None:
     img_resized = cv2.resize(image, (128, 128))
     img_array = np.expand_dims(img_resized / 255.0, axis=0)
 
-   # Predict
-prediction = model.predict(img_array)
+    # ✅ Predict (moved inside the if block)
+    prediction = model.predict(img_array)
 
-if prediction[0][0] < 0.5:
-    st.subheader(f"Prediction: 🟢 Real ({(1 - prediction[0][0]) * 100:.2f}% confidence)")
-else:
-    st.subheader(f"Prediction: 🔴 Fake ({prediction[0][0] * 100:.2f}% confidence)")
+    # ✅ Display result
+    if prediction[0][0] < 0.5:
+        st.subheader(f"Prediction: 🟢 Real ({(1 - prediction[0][0]) * 100:.2f}% confidence)")
+    else:
+        st.subheader(f"Prediction: 🔴 Fake ({prediction[0][0] * 100:.2f}% confidence)")
