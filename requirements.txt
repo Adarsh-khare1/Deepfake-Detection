@@ -4,3 +4,4 @@ huggingface_hub
 numpy
 pillow
 opencv-python
+opencv-python-headless
