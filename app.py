@@ -13,7 +13,7 @@ st.write("Upload an image to check whether it's **real or deepfake** using a tra
 @st.cache_resource
 def load_model():
     model_path = hf_hub_download(
-        repo_id="your-username/deepfake-detector",  # 🔁 Replace with your Hugging Face username/repo
+        repo_id="khr007adarsh/deepfake-detector",  # 🔁 Replace with your Hugging Face username/repo
         filename="deepfake_model.keras"
     )
     model = tf.keras.models.load_model(model_path)
