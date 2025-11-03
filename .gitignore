@@ -27,3 +27,7 @@ Thumbs.db
 
 # Environment files
 .env
+*.h5
+*.mp4
+.ipynb_checkpoints/
+

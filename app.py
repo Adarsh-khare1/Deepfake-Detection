@@ -2,17 +2,26 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 import cv2
-import os
-os.system("ldd --version")
-os.system("apt-get update && apt-get install -y libgl1-mesa-glx")
+from huggingface_hub import hf_hub_download
 
-
-# Load the trained model
-model = tf.keras.models.load_model('deepfake_model.h5')
+st.set_page_config(page_title="🎭 Deepfake Detection", layout="centered")
 
 st.title("🎭 Deepfake Detection App")
-st.write("Upload a video or image to check if it's real or fake.")
+st.write("Upload an image to check whether it's **real or deepfake** using a trained CNN model.")
 
+# ✅ Download model from Hugging Face (only first time)
+@st.cache_resource
+def load_model():
+    model_path = hf_hub_download(
+        repo_id="your-username/deepfake-detector",  # 🔁 Replace with your Hugging Face username/repo
+        filename="deepfake_model.keras"
+    )
+    model = tf.keras.models.load_model(model_path)
+    return model
+
+model = load_model()
+
+# ✅ File upload
 uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
@@ -25,11 +34,12 @@ if uploaded_file is not None:
     img_resized = cv2.resize(image, (128, 128))
     img_array = np.expand_dims(img_resized / 255.0, axis=0)
 
-    # ✅ Predict (moved inside the if block)
+    # Predict
     prediction = model.predict(img_array)
 
-    # ✅ Display result
-    if prediction[0][0] < 0.5:
-        st.subheader(f"Prediction: 🟢 Real ({(1 - prediction[0][0]) * 100:.2f}% confidence)")
+    # Display result
+    confidence = prediction[0][0]
+    if confidence < 0.5:
+        st.success(f"🟢 Prediction: Real ({(1 - confidence) * 100:.2f}% confidence)")
     else:
-        st.subheader(f"Prediction: 🔴 Fake ({prediction[0][0] * 100:.2f}% confidence)")
+        st.error(f"🔴 Prediction: Fake ({confidence * 100:.2f}% confidence)")
